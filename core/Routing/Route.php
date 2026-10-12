@@ -12,6 +12,8 @@ use Closure;
 class Route
 {
     private string $regex = '';
+    /** @var array<int, class-string<\Vioni\Http\MiddlewareInterface>|\Vioni\Http\MiddlewareInterface> */
+    private array $middlewares = [];
     /** @var array<int, string> */
     private array $parameterNames = [];
 
@@ -26,6 +28,30 @@ class Route
         private readonly Closure|array $action
     ) {
         $this->compileRegex();
+    }
+
+    /**
+     * Attach one or more middlewares to this route.
+     *
+     * @param class-string<\Vioni\Http\MiddlewareInterface>|\Vioni\Http\MiddlewareInterface|array<int, class-string<\Vioni\Http\MiddlewareInterface>|\Vioni\Http\MiddlewareInterface> $middleware
+     */
+    public function middleware(string|object|array $middleware): self
+    {
+        if (is_array($middleware)) {
+            $this->middlewares = array_merge($this->middlewares, $middleware);
+        } else {
+            $this->middlewares[] = $middleware;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return array<int, class-string<\Vioni\Http\MiddlewareInterface>|\Vioni\Http\MiddlewareInterface>
+     */
+    public function getMiddlewares(): array
+    {
+        return $this->middlewares;
     }
 
     /**

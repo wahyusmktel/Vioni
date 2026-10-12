@@ -6,13 +6,23 @@ Vioni adalah framework web PHP modern yang dirancang untuk mengatasi kelemahan f
 
 ---
 
-## 🌟 Fitur Utama (Milestone 1)
+## 🌟 Fitur Unggulan
 
 * **PHP 8.4 Strict & Type-Safe**: Pemanfaatan penuh tipe data modern, tanpa `__call` bayangan.
+* **Vioni CLI Runner (`php vioni`)**:
+  * `php vioni serve`: Menjalankan server dev lokal.
+  * `php vioni route:list`: Menampilkan tabel seluruh rute.
+  * `php vioni key:generate`: Menghasilkan kunci enkripsi AES-256 (256-bit).
+  * `php vioni security:audit`: Audit otomatis kesiapan keamanan aplikasi.
+  * `php vioni make:controller` & `make:middleware`: Scaffolding kode instan.
+  * `php vioni test`: Menjalankan test suite bawaan.
 * **Cyber Security by Default**:
   * Otomatis menyematkan **OWASP Security Headers** pada setiap respons (`X-Frame-Options`, `X-Content-Type-Options`, dll).
+  * **Proteksi CSRF** bawaan dengan verifikasi *timing-attack-safe* (`hash_equals`).
   * Perlindungan terhadap **Null-Byte Injection** & URI poisoning.
   * Proteksi kebocoran informasi (*safe exception handler* untuk environment production).
+* **Onion Middleware Pipeline**:
+  * Dukungan middleware global maupun per-rute.
 * **Smart Routing**:
   * Parameter URL dinamis dengan auto type-casting (contoh: `/users/{id}`).
   * Dukungan Closure dan Controller method.
@@ -20,16 +30,16 @@ Vioni adalah framework web PHP modern yang dirancang untuk mengatasi kelemahan f
 * **Automatic Content Serialization**:
   * Array & Object otomatis diserialisasi menjadi JSON.
   * String disajikan langsung sebagai HTML.
-* **Living Documentation**: Dokumentasi terperinci siap pakai di direktori `docs/`.
+* **Living Documentation**: Dokumentasi komprehensif di direktori `docs/`.
 
 ---
 
 ## 🚀 Menjalankan Server Lokal
 
-Jalankan perintah berikut pada terminal:
+Gunakan Vioni CLI:
 
 ```bash
-php -S localhost:8000 -t public
+php vioni serve
 ```
 
 Buka browser Anda di [http://localhost:8000](http://localhost:8000).
@@ -39,7 +49,7 @@ Buka browser Anda di [http://localhost:8000](http://localhost:8000).
 ## 🧪 Menjalankan Automated Tests
 
 ```bash
-php tests/test_run.php
+php vioni test
 ```
 
 ---
@@ -48,5 +58,7 @@ php tests/test_run.php
 
 * [Pengenalan & Filosofi](docs/index.md)
 * [Arsitektur & Siklus Hidup](docs/architecture.md)
+* [Panduan CLI (`php vioni`)](docs/cli.md)
 * [Panduan Routing](docs/routing.md)
+* [Panduan Middleware](docs/middleware.md)
 * [Standar Keamanan Siber](docs/security.md)

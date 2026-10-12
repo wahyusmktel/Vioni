@@ -51,3 +51,33 @@ Mencegah serangan *type juggling* PHP dengan menyediakan fungsi input bertipe ku
 * `$request->int('user_id')`: Menjamin nilai yang didapat adalah integer valid.
 * `$request->str('keyword')`: Menjamin nilai yang didapat adalah string.
 * `$request->bool('is_active')`: Validasi boolean aman.
+
+---
+
+## 🔑 5. Proteksi CSRF (Cross-Site Request Forgery)
+
+Vioni menyediakan engine CSRF bawaan (`Vioni\Security\Csrf`) dan middleware penjaga (`App\Middleware\VerifyCsrfToken`):
+* Menghasilkan token acak 256-bit entropy (`bin2hex(random_bytes(32))`).
+* Validasi token wajib menggunakan `hash_equals()` untuk mencegah **Timing Attacks**.
+* Mendukung helper formulir HTML:
+  ```php
+  // Menghasilkan <input type="hidden" name="_csrf" value="...">
+  <?= \Vioni\Security\Csrf::field() ?>
+  
+  // Menghasilkan <meta name="csrf-token" content="..."> untuk SPA / fetch
+  <?= \Vioni\Security\Csrf::meta() ?>
+  ```
+* Mendukung token via HTTP Header `X-CSRF-TOKEN` untuk AJAX / SPA modern.
+* Endpoint API (`/api/*`) secara default dikecualikan dari verifikasi token form.
+
+---
+
+## 🔎 6. Audit Keamanan Mandiri (`security:audit`)
+
+Vioni menyediakan perkakas audit siber otomatis untuk memeriksa kesehatan keamanan aplikasi Anda kapan saja:
+
+```bash
+php vioni security:audit
+```
+
+Audit ini memverifikasi kesiapan production, versi PHP, status proteksi clickjacking, MIME sniffing, cookie security flags, dan cryptographic key.

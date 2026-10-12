@@ -20,12 +20,30 @@ class Router
     /** @var array<int, Route> */
     private array $routes = [];
 
+    /** @var array<int, class-string<\Vioni\Http\MiddlewareInterface>|\Vioni\Http\MiddlewareInterface> */
+    private array $globalMiddlewares = [];
+
     public static function getInstance(): self
     {
         if (self::$instance === null) {
             self::$instance = new self();
         }
         return self::$instance;
+    }
+
+    /**
+     * Register a global middleware that applies to all routes.
+     *
+     * @param class-string<\Vioni\Http\MiddlewareInterface>|\Vioni\Http\MiddlewareInterface|array<int, class-string<\Vioni\Http\MiddlewareInterface>|\Vioni\Http\MiddlewareInterface> $middleware
+     */
+    public function middleware(string|object|array $middleware): self
+    {
+        if (is_array($middleware)) {
+            $this->globalMiddlewares = array_merge($this->globalMiddlewares, $middleware);
+        } else {
+            $this->globalMiddlewares[] = $middleware;
+        }
+        return $this;
     }
 
     /**
@@ -79,10 +97,16 @@ class Router
             ], 404);
         }
 
-        // Execute action with dependency injection for Request and Route parameters
-        $result = $this->executeAction($matchedRoute->getAction(), $request, $params);
+        // Collect all middlewares (Global + Route-specific)
+        $middlewares = array_merge($this->globalMiddlewares, $matchedRoute->getMiddlewares());
 
-        return Response::make($result);
+        // Execute action through the Middleware Pipeline
+        $pipeline = new \Vioni\Http\MiddlewarePipeline($middlewares);
+
+        return $pipeline->send($request, function (Request $req) use ($matchedRoute, $params): Response {
+            $result = $this->executeAction($matchedRoute->getAction(), $req, $params);
+            return Response::make($result);
+        });
     }
 
     /**

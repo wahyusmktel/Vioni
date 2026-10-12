@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+// 1. Require Composer Autoloader
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Vioni\Console\Kernel;
+use Vioni\Foundation\Application;
+
+// 2. Bootstrap Application Instance
+/** @var Application $app */
+$app = require_once __DIR__ . '/bootstrap/app.php';
+
+// 3. Initialize Console Kernel & Handle Command
+$kernel = new Kernel($app);
+$exitCode = $kernel->handle($argv);
+
+exit($exitCode);
