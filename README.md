@@ -21,6 +21,11 @@ Vioni adalah framework web PHP modern yang dirancang untuk mengatasi kelemahan f
   * **Proteksi CSRF** bawaan dengan verifikasi *timing-attack-safe* (`hash_equals`).
   * Perlindungan terhadap **Null-Byte Injection** & URI poisoning.
   * Proteksi kebocoran informasi (*safe exception handler* untuk environment production).
+* **Database Engine & Anti-SQL Injection**:
+  * 100% Parameterized Native Prepared Statements (PDO emulated prepares disabled).
+  * Fluent Query Builder (`DB::table(...)`) dengan perlindungan identifier injection.
+  * Lightweight Active Record Model (`App\Models\...`) dengan Mass-Assignment Protection.
+  * Transaksi Database Atomik (`DB::transaction(...)`).
 * **Onion Middleware Pipeline**:
   * Dukungan middleware global maupun per-rute.
 * **Smart Routing**:
@@ -61,4 +66,5 @@ php vioni test
 * [Panduan CLI (`php vioni`)](docs/cli.md)
 * [Panduan Routing](docs/routing.md)
 * [Panduan Middleware](docs/middleware.md)
+* [Database & Query Builder](docs/database.md)
 * [Standar Keamanan Siber](docs/security.md)

@@ -41,4 +41,5 @@ Selamat datang di dokumentasi resmi **Vioni PHP Framework**. Vioni lahir dari de
 * [Panduan CLI (`php vioni`)](cli.md)
 * [Panduan Routing](routing.md)
 * [Panduan Middleware](middleware.md)
+* [Database & Query Builder](database.md)
 * [Standar Keamanan Siber](security.md)

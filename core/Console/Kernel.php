@@ -7,6 +7,7 @@ namespace Vioni\Console;
 use Vioni\Console\Commands\KeyGenerateCommand;
 use Vioni\Console\Commands\MakeControllerCommand;
 use Vioni\Console\Commands\MakeMiddlewareCommand;
+use Vioni\Console\Commands\MakeModelCommand;
 use Vioni\Console\Commands\RouteListCommand;
 use Vioni\Console\Commands\SecurityAuditCommand;
 use Vioni\Console\Commands\ServeCommand;
@@ -32,6 +33,7 @@ class Kernel
         $this->register(new SecurityAuditCommand());
         $this->register(new MakeControllerCommand());
         $this->register(new MakeMiddlewareCommand());
+        $this->register(new MakeModelCommand());
         $this->register(new TestCommand());
     }
 
